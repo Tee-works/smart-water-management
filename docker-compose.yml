@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Main ETL application
+  water-etl:
+    build: .
+    container_name: water-etl-app
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    networks:
+      - water-network
+
+  # Spark ETL service
+  spark-etl:
+    build: .
+    container_name: spark-etl-app
+    command: ["python", "src/spark_etl.py"]
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=us-east-1
+      - SPARK_LOCAL_IP=127.0.0.1
+    volumes:
+      - ./src:/app/src
+      - ./data:/app/data
+    networks:
+      - water-network
+
+  # PostgreSQL for data modeling (Day 3)
+  postgres:
+    image: postgres:15
+    container_name: water-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=water_analytics
+      - POSTGRES_USER=dataeng
+      - POSTGRES_PASSWORD=pipeline123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - water-network
+
+  # Redis for caching (future use)
+  redis:
+    image: redis:7-alpine
+    container_name: water-redis
+    ports:
+      - "6380:6379"
+    networks:
+      - water-network
+
+networks:
+  water-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -1,0 +1,43 @@
+{
+  "execution_time": "2025-06-04T18:45:09.596691",
+  "data_summary": {
+    "total_records": 41,
+    "data_sources": [
+      "OpenMeteo_API",
+      "UK_Environment_Agency",
+      "OpenWeatherMap_API"
+    ],
+    "sensor_types": [
+      "temperature",
+      "water_level",
+      "air_quality"
+    ],
+    "districts": [
+      "Central",
+      "Thames Valley",
+      "South"
+    ],
+    "date_range": "2025-06-04 00:00:00 to 2025-06-04 23:00:00",
+    "quality_score_avg": 0.9492682926829269,
+    "anomaly_rate": 0.0
+  },
+  "validation_summary": {
+    "overall_score": 0.8206599713055954,
+    "status": "WARNING",
+    "critical_issues": 0,
+    "recommendations": [
+      "Review data ingestion pipeline to ensure schema compliance",
+      "Implement data quality monitoring and alerting",
+      "Add data deduplication logic to ingestion pipeline"
+    ]
+  },
+  "source_breakdown": {
+    "OpenMeteo_API": 24,
+    "OpenWeatherMap_API": 1,
+    "UK_Environment_Agency": 16
+  },
+  "technical_metrics": {
+    "file_size_mb": 0.007793426513671875,
+    "memory_usage_mb": 0.033560752868652344
+  }
+}

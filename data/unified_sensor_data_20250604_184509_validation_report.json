@@ -1,0 +1,65 @@
+{
+  "timestamp": "2025-06-04T18:45:09.588020",
+  "dataset_info": {
+    "record_count": 41,
+    "column_count": 17,
+    "memory_usage_mb": 0.033652305603027344,
+    "date_range": "2025-06-04 00:00:00 to 2025-06-04 23:00:00"
+  },
+  "overall_score": 0.8206599713055954,
+  "status": "WARNING",
+  "summary": {
+    "total_validations": 4,
+    "critical_issues": 0,
+    "errors": 2,
+    "warnings": 2,
+    "info": 0
+  },
+  "detailed_results": [
+    {
+      "field": "schema",
+      "severity": "warning",
+      "message": "Unexpected columns found: ['batch_id', 'ingestion_source', 'station_name', 'ingestion_priority', 'ingestion_timestamp', 'unified_batch_id', 'pipeline_version', 'catchment']",
+      "failure_rate": 0.47058823529411764,
+      "failed_count": 8,
+      "total_count": 17
+    },
+    {
+      "field": "timestamp",
+      "severity": "error",
+      "message": "Found 5 future timestamps",
+      "failure_rate": 0.12195121951219512,
+      "failed_count": "5",
+      "total_count": 41
+    },
+    {
+      "field": "completeness",
+      "severity": "error",
+      "message": "Dataset completeness is 89.24% (below 95% threshold)",
+      "failure_rate": 0.10760401721664276,
+      "failed_count": "75",
+      "total_count": 697
+    },
+    {
+      "field": "duplicates",
+      "severity": "warning",
+      "message": "Found 6 duplicate records based on sensor_id and timestamp",
+      "failure_rate": 0.14634146341463414,
+      "failed_count": "6",
+      "total_count": 41
+    }
+  ],
+  "recommendations": [
+    "Review data ingestion pipeline to ensure schema compliance",
+    "Implement data quality monitoring and alerting",
+    "Add data deduplication logic to ingestion pipeline",
+    "Investigate root cause for high failure rates in: schema, timestamp, completeness, duplicates"
+  ],
+  "data_quality_breakdown": {
+    "schema_compliance": 0.5294117647058824,
+    "business_rules_compliance": 1.0,
+    "data_completeness": 0.8923959827833572,
+    "data_freshness": 1.0,
+    "statistical_quality": 1.0
+  }
+}

@@ -1,0 +1,26 @@
+# Core
+pandas==2.0.3
+numpy==1.24.3
+python-dotenv==1.0.0
+
+# Database
+psycopg2-binary==2.9.7
+sqlalchemy==2.0.19
+
+# API & Web
+flask==2.3.2
+requests==2.31.0
+aiohttp==3.8.5
+
+# Data Processing
+pyspark==3.4.1
+
+# AWS (optional)
+boto3==1.28.17
+
+# Data Quality
+great-expectations==0.17.12
+
+# Utilities
+click==8.1.6
+tqdm==4.65.0
