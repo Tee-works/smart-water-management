@@ -485,7 +485,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👤 Contact
 
 **Your Name**
-- LinkedIn: [linkedin.com/in/yourprofile](www.linkedin.com/in/iyanujesu-akinyefa)
+- LinkedIn: [linkedin.com/in/yourprofile](https://www.linkedin.com/in/iyanujesu-akinyefa/)
 - Email: iyanujesuakinyefa@gmail.com
 - Portfolio: [yourportfolio.com](https://iyanujesu-taiwo.netlify.app/)
 
