@@ -485,9 +485,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👤 Contact
 
 **Your Name**
-- LinkedIn: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
-- Portfolio: [yourportfolio.com](https://yourportfolio.com)
+- LinkedIn: [linkedin.com/in/yourprofile](www.linkedin.com/in/iyanujesu-akinyefa)
+- Email: iyanujesuakinyefa@gmail.com
+- Portfolio: [yourportfolio.com](https://iyanujesu-taiwo.netlify.app/)
 
 **Project Link**: [https://github.com/tee-works/smart-water-management](https://github.com/tee-works/smart-water-management)
 
