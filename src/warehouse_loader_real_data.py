@@ -17,7 +17,7 @@ class RealDataWarehouseLoader:
     def __init__(self):
         # Database connection (same as before)
         self.db_engine = create_engine(
-            'postgresql://dataeng:pipeline123@localhost:5432/water_analytics'
+            'postgresql://dataeng:pipeline123@localhost:5433/water_analytics'
         )
     
     def find_latest_data_file(self):
@@ -32,32 +32,84 @@ class RealDataWarehouseLoader:
         logger.info(f"Found latest data file: {latest_file}")
         return latest_file
     
-    def create_schema_tables(self):
-        """Create the dimensional schema in PostgreSQL"""
-        logger.info("Creating dimensional schema tables")
+    def create_simple_schema(self):
+        """Create simple schema that matches your real data"""
+        logger.info("Creating simple schema for real data")
+        
+        schema_sql = """
+        -- Drop existing tables
+        DROP TABLE IF EXISTS fact_sensor_readings CASCADE;
+        DROP TABLE IF EXISTS dim_sensors CASCADE;
+        DROP TABLE IF EXISTS dim_sensor_types CASCADE;
+        DROP TABLE IF EXISTS dim_locations CASCADE;
+        DROP TABLE IF EXISTS dim_time CASCADE;
+        
+        -- Simple time dimension
+        CREATE TABLE dim_time (
+            time_key INTEGER PRIMARY KEY,
+            date_actual DATE NOT NULL,
+            year INTEGER NOT NULL,
+            month INTEGER NOT NULL,
+            day_of_month INTEGER NOT NULL,
+            day_of_week INTEGER NOT NULL,
+            day_name VARCHAR(20) NOT NULL,
+            is_weekend BOOLEAN NOT NULL
+        );
+        
+        -- Simple locations
+        CREATE TABLE dim_locations (
+            location_key INTEGER PRIMARY KEY,
+            district_name VARCHAR(100) NOT NULL,
+            city VARCHAR(100) DEFAULT 'London'
+        );
+        
+        -- Simple sensor types
+        CREATE TABLE dim_sensor_types (
+            sensor_type_key INTEGER PRIMARY KEY,
+            sensor_type VARCHAR(50) NOT NULL,
+            measurement_unit VARCHAR(20) NOT NULL
+        );
+        
+        -- Simple sensors
+        CREATE TABLE dim_sensors (
+            sensor_key INTEGER PRIMARY KEY,
+            sensor_id VARCHAR(50) NOT NULL,
+            sensor_type VARCHAR(50) NOT NULL,
+            district VARCHAR(100) NOT NULL,
+            status VARCHAR(20) DEFAULT 'active'
+        );
+        
+        -- Simple fact table
+        CREATE TABLE fact_sensor_readings (
+            reading_key BIGINT PRIMARY KEY,
+            sensor_key INTEGER NOT NULL,
+            time_key INTEGER NOT NULL,
+            location_key INTEGER NOT NULL,
+            sensor_type_key INTEGER NOT NULL,
+            reading_value DECIMAL(15,6) NOT NULL,
+            quality_score DECIMAL(5,3),
+            anomaly_flag INTEGER DEFAULT 0,
+            reading_timestamp TIMESTAMP NOT NULL,
+            data_source VARCHAR(100),
+            station_name VARCHAR(200),
+            unified_batch_id VARCHAR(100),
+            
+            FOREIGN KEY (sensor_key) REFERENCES dim_sensors(sensor_key),
+            FOREIGN KEY (time_key) REFERENCES dim_time(time_key),
+            FOREIGN KEY (location_key) REFERENCES dim_locations(location_key),
+            FOREIGN KEY (sensor_type_key) REFERENCES dim_sensor_types(sensor_type_key)
+        );
+        
+        -- Basic indexes
+        CREATE INDEX idx_readings_timestamp ON fact_sensor_readings(reading_timestamp);
+        CREATE INDEX idx_readings_sensor ON fact_sensor_readings(sensor_key);
+        """
         
         try:
-            # First drop existing tables
-            if not self.drop_existing_tables():
-                return False
-                
-            # Read schema file and execute
-            with open('sql/real_data_schema.sql', 'r') as f:
-                schema_sql = f.read()
-            
-            # Split into individual statements
-            statements = [stmt.strip() for stmt in schema_sql.split(';') if stmt.strip()]
-            
-            # Use transaction context manager
             with self.db_engine.begin() as conn:
-                for statement in statements:
-                    if statement:
-                        conn.execute(text(statement))
-                # Transaction is automatically committed when exiting the context
-            
-            logger.info("Dimensional schema created successfully")
+                conn.execute(text(schema_sql))
+            logger.info("Simple schema created successfully")
             return True
-            
         except Exception as e:
             logger.error(f"Failed to create schema: {e}")
             return False
@@ -325,7 +377,7 @@ def main():
     if success:
         print("\n🎉 SUCCESS: Real Data Warehouse Created!")
         print("\n✅ What was loaded:")
-        print("• Your 41 real API records")
+        print("• Your real API records")
         print("• OpenMeteo weather data")
         print("• UK Environment Agency Thames data")
         print("• OpenWeather air quality data")

@@ -23,7 +23,7 @@ def upload_sensor_data():
     # Define files to upload
     upload_tasks = [
         {
-            'local_file': 'data/unified_sensor_data_enhanced_*.csv',
+            'local_file': 'data/unified_sensor_data_enhanced_20250608_014847.csv',
             's3_key': f'bronze/sensors/{partition_path}/sensors.csv',
             'description': 'Sensor location metadata'
         }

@@ -146,12 +146,13 @@ class UnifiedDataIngestionPlatform:
         
         try:
             lat, lon = 51.5074, -0.1278
-            api_key = os.getenv('OPENWEATHER_API_KEY')
-            
+            api_key = "bf924330dbf3911b5107e8e39cd3df45"
+         
             if not api_key:
                 self.logger.warning("No OpenWeather API key, using mock data")
                 return self._generate_mock_air_quality()
             
+
             url = f'http://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={api_key}'
             params = {'lat': lat, 'lon': lon, 'appid': api_key}
             

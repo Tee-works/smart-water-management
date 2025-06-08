@@ -1,9 +1,11 @@
-# docker-compose.airflow-simple.yml
+# docker-compose.airflow-fixed.yml
 version: '3.8'
 
 services:
   airflow:
-    image: apache/airflow:2.7.3-python3.9
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     container_name: water-airflow
     environment:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
@@ -13,21 +15,36 @@ services:
       - AIRFLOW__CORE__LOAD_EXAMPLES=false
       - AIRFLOW__WEBSERVER__SECRET_KEY=your_secret_key_here
       - _PIP_ADDITIONAL_REQUIREMENTS=pandas numpy requests psycopg2-binary sqlalchemy boto3
+      - PYTHONPATH=/app/src
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
       - ./src:/app/src
-      - ./data:/app/data
+      # Use named volumes for data persistence
+      - airflow_data:/opt/airflow/data
+      - airflow_tmp:/tmp/airflow_data
+      - airflow_home_data:/home/airflow/data
     ports:
       - "8080:8080"
     command: >
       bash -c "
+        # Create directories with proper permissions
+        mkdir -p /opt/airflow/data /tmp/airflow_data /home/airflow/data &&
+        # Initialize database
         airflow db init &&
-        airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin123 &&
+        # Create admin user if not exists
+        airflow users list | grep -q admin || airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin123 &&
+        # Start services
         airflow webserver --port 8080 -D &&
         airflow scheduler
       "
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    user: "${AIRFLOW_UID:-50000}:0"
+
+volumes:
+  airflow_data:
+  airflow_tmp:
+  airflow_home_data:

@@ -29,7 +29,7 @@ class EnhancedDataWarehouseLoader:
     
     def __init__(self):
         self.db_engine = create_engine(
-            'postgresql://dataeng:pipeline123@localhost:5434/water_analytics',
+            'postgresql://dataeng:pipeline123@localhost:5433/water_analytics',
             pool_size=10,
             max_overflow=20,
             pool_pre_ping=True
