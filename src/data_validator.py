@@ -647,7 +647,7 @@ def main():
     
     # Load the data from your ingestion
     try:
-        df = pd.read_csv('data/real_sensor_readings.csv')
+        df = pd.read_csv('data/unified_sensor_data_20250608_151110.csv')
         print(f"📊 Loaded {len(df)} records for validation")
         
         # Run validation

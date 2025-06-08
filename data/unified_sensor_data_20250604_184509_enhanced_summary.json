@@ -1,0 +1,75 @@
+{
+  "execution_time": "2025-06-06T01:04:15.457016",
+  "ingestion_configuration": {
+    "mode": "1 week historical + multi-location",
+    "historical_mode": true,
+    "historical_days": 7,
+    "multi_location_mode": true,
+    "estimated_vs_actual": {
+      "estimated_records": 8400,
+      "actual_records": 41,
+      "efficiency": 0.004880952380952381
+    }
+  },
+  "data_summary": {
+    "total_records": 41,
+    "unique_sensors": 35,
+    "data_sources": [
+      "OpenMeteo_API",
+      "UK_Environment_Agency",
+      "OpenWeatherMap_API"
+    ],
+    "sensor_types": [
+      "temperature",
+      "water_level",
+      "air_quality"
+    ],
+    "districts": [
+      "Central",
+      "Thames Valley",
+      "South"
+    ],
+    "date_range": "2025-06-04 00:00:00 to 2025-06-04 23:00:00",
+    "date_range_days": 0,
+    "quality_score_avg": 0.9492682926829269,
+    "anomaly_rate": 0.0
+  },
+  "detailed_breakdowns": {
+    "by_data_source": {
+      "OpenMeteo_API": 24,
+      "OpenWeatherMap_API": 1,
+      "UK_Environment_Agency": 16
+    },
+    "by_sensor_type": {
+      "air_quality": 1,
+      "temperature": 24,
+      "water_level": 16
+    },
+    "by_district": {
+      "Central": 25,
+      "South": 2,
+      "Thames Valley": 14
+    }
+  },
+  "validation_summary": {
+    "overall_score": 0.6335724533715925,
+    "status": "WARNING",
+    "critical_issues": 0,
+    "recommendations": [
+      "Review data ingestion pipeline to ensure schema compliance",
+      "Implement data quality monitoring and alerting",
+      "Add data deduplication logic to ingestion pipeline"
+    ]
+  },
+  "technical_metrics": {
+    "file_size_mb": 0.007793426513671875,
+    "memory_usage_mb": 0.03121471405029297,
+    "records_per_day": 41
+  },
+  "data_quality_insights": {
+    "coverage_score": 0.004880952380952381,
+    "temporal_coverage": 0,
+    "geographic_coverage": 3,
+    "sensor_diversity": 3
+  }
+}

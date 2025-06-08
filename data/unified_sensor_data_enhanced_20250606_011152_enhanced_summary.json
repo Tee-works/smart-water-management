@@ -1,0 +1,89 @@
+{
+  "execution_time": "2025-06-06T01:11:52.674810",
+  "ingestion_configuration": {
+    "mode": "1 week historical + multi-location",
+    "historical_mode": true,
+    "historical_days": 7,
+    "multi_location_mode": true,
+    "estimated_vs_actual": {
+      "estimated_records": 8400,
+      "actual_records": 1489,
+      "efficiency": 0.17726190476190476
+    }
+  },
+  "data_summary": {
+    "total_records": 1489,
+    "unique_sensors": 1468,
+    "data_sources": [
+      "OpenMeteo_Historical_API",
+      "OpenMeteo_API",
+      "OpenMeteo_MultiLocation_API",
+      "UK_Environment_Agency",
+      "OpenWeatherMap_API"
+    ],
+    "sensor_types": [
+      "temperature",
+      "humidity",
+      "precipitation",
+      "water_level",
+      "air_quality"
+    ],
+    "districts": [
+      "Central",
+      "North",
+      "East",
+      "South",
+      "West",
+      "Thames Valley"
+    ],
+    "date_range": "2025-05-25 14:30:00 to 2025-06-06 23:00:00",
+    "date_range_days": 12,
+    "quality_score_avg": 0.9780859637340499,
+    "anomaly_rate": 0.0
+  },
+  "detailed_breakdowns": {
+    "by_data_source": {
+      "OpenMeteo_API": 24,
+      "OpenMeteo_Historical_API": 435,
+      "OpenMeteo_MultiLocation_API": 960,
+      "OpenWeatherMap_API": 1,
+      "UK_Environment_Agency": 69
+    },
+    "by_sensor_type": {
+      "air_quality": 1,
+      "humidity": 625,
+      "precipitation": 145,
+      "temperature": 649,
+      "water_level": 69
+    },
+    "by_district": {
+      "Central": 509,
+      "East": 192,
+      "North": 240,
+      "South": 290,
+      "Thames Valley": 62,
+      "West": 196
+    }
+  },
+  "validation_summary": {
+    "overall_score": 0.5232454667562122,
+    "status": "WARNING",
+    "critical_issues": 0,
+    "recommendations": [
+      "Review data ingestion pipeline to ensure schema compliance",
+      "Implement data quality monitoring and alerting",
+      "Add data deduplication logic to ingestion pipeline"
+    ]
+  },
+  "technical_metrics": {
+    "file_size_mb": 0.2849750518798828,
+    "memory_usage_mb": 1.1786422729492188,
+    "records_per_day": 124.08333333333333
+  },
+  "data_quality_insights": {
+    "coverage_score": 0.17726190476190476,
+    "temporal_coverage": 12,
+    "geographic_coverage": 6,
+    "sensor_diversity": 5
+  }
+}

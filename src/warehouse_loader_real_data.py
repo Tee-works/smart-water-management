@@ -22,7 +22,7 @@ class RealDataWarehouseLoader:
     
     def find_latest_data_file(self):
         """Find the latest unified sensor data file"""
-        data_files = glob.glob('data/unified_sensor_data_*.csv')
+        data_files = glob.glob('data/unified_sensor_data_enhanced_*.csv')
         if not data_files:
             logger.error("No unified sensor data files found!")
             return None
@@ -377,7 +377,7 @@ def main():
     if success:
         print("\n🎉 SUCCESS: Real Data Warehouse Created!")
         print("\n✅ What was loaded:")
-        print("• Your 41 real API records")
+        print("• Your real API records")
         print("• OpenMeteo weather data")
         print("• UK Environment Agency Thames data")
         print("• OpenWeather air quality data")
