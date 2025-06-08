@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-06-08T01:48:47.140211",
+  "dataset_info": {
+    "record_count": 1054,
+    "column_count": 20,
+    "memory_usage_mb": 0.9044332504272461,
+    "date_range": "2025-06-07 08:00:00 to 2025-06-08 23:00:00"
+  },
+  "overall_score": 0.5195098991155422,
+  "status": "WARNING",
+  "summary": {
+    "total_validations": 8,
+    "critical_issues": 0,
+    "errors": 5,
+    "warnings": 3,
+    "info": 0
+  },
+  "detailed_results": [
+    {
+      "field": "schema",
+      "severity": "warning",
+      "message": "Unexpected columns found: ['ingestion_priority', 'longitude', 'location_name', 'batch_id', 'station_name', 'latitude', 'ingestion_source', 'catchment', 'unified_batch_id', 'pipeline_version', 'ingestion_timestamp']",
+      "failure_rate": 0.55,
+      "failed_count": 11,
+      "total_count": 20
+    },
+    {
+      "field": "sensor_type",
+      "severity": "error",
+      "message": "Column sensor_type contains invalid values: ['humidity']",
+      "failure_rate": 0.45540796963946867,
+      "failed_count": "480",
+      "total_count": 1054
+    },
+    {
+      "field": "unit",
+      "severity": "error",
+      "message": "Column unit contains invalid values: ['%']",
+      "failure_rate": 0.45540796963946867,
+      "failed_count": "480",
+      "total_count": 1054
+    },
+    {
+      "field": "data_source",
+      "severity": "error",
+      "message": "Column data_source contains invalid values: ['OpenMeteo_MultiLocation_API']",
+      "failure_rate": 0.9108159392789373,
+      "failed_count": "960",
+      "total_count": 1054
+    },
+    {
+      "field": "timestamp",
+      "severity": "error",
+      "message": "Found 902 future timestamps",
+      "failure_rate": 0.855787476280835,
+      "failed_count": "902",
+      "total_count": 1054
+    },
+    {
+      "field": "water_level_value_range",
+      "severity": "warning",
+      "message": "water_level sensors have 1 values outside expected range -5-20",
+      "failure_rate": 0.014492753623188406,
+      "failed_count": "1",
+      "total_count": 69
+    },
+    {
+      "field": "completeness",
+      "severity": "error",
+      "message": "Dataset completeness is 84.64% (below 95% threshold)",
+      "failure_rate": 0.15355787476280836,
+      "failed_count": "3237",
+      "total_count": 21080
+    },
+    {
+      "field": "duplicates",
+      "severity": "warning",
+      "message": "Found 21 duplicate records based on sensor_id and timestamp",
+      "failure_rate": 0.019924098671726755,
+      "failed_count": "21",
+      "total_count": 1054
+    }
+  ],
+  "recommendations": [
+    "Review data ingestion pipeline to ensure schema compliance",
+    "Implement data quality monitoring and alerting",
+    "Add data deduplication logic to ingestion pipeline",
+    "Validate sensor calibration and measurement ranges",
+    "Review business logic for data transformation",
+    "Investigate root cause for high failure rates in: schema, sensor_type, unit, data_source, timestamp, completeness"
+  ],
+  "data_quality_breakdown": {
+    "schema_compliance": 0.44999999999999996,
+    "business_rules_compliance": 0.9855072463768116,
+    "data_completeness": 0.8464421252371916,
+    "data_freshness": 1.0,
+    "statistical_quality": 1.0
+  }
+}

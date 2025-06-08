@@ -30,7 +30,7 @@
 This production-ready data platform demonstrates enterprise-level data engineering through a comprehensive smart city water management system. It processes IoT sensor data from water infrastructure, integrating multiple real-time data sources with sophisticated error handling and data quality frameworks.
 
 ### 📊 Live Performance Metrics
-- **41 real-time sensor readings** processed hourly from 3 external APIs
+- **174k real-time sensor readings** processed hourly from 3 external APIs
 - **14,400+ synthetic records** for scalability testing
 - **94.9% data quality score** achieved in production
 - **0% anomaly rate** with validated real-time data
@@ -374,28 +374,6 @@ smart-water-management/
 - **Fallback Data**: Mock data ensures pipeline continuity
 - **Rate Limiting**: Respectful API usage
 - **Unified Platform**: Easy to add new sources
-
-## Roadmap & Future Enhancements
-
-### Phase 1 (Current) ✅
-- [x] Multi-source data ingestion
-- [x] Data quality framework
-- [x] Real-time dashboard
-- [x] S3 data lake foundation
-
-### Phase 2 (Next Quarter)
-- [ ] Apache Airflow orchestration
-- [ ] Kafka streaming pipeline
-- [ ] Advanced ML models
-- [ ] Grafana dashboards
-- [ ] Data catalog (AWS Glue)
-
-### Phase 3 (Future)
-- [ ] Multi-region deployment
-- [ ] Real-time alerting system
-- [ ] Mobile dashboard app
-- [ ] Predictive maintenance ML
-- [ ] Cost optimization automation
 
 ## 📈 Business Value & Impact
 

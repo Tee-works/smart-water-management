@@ -1,39 +1,9 @@
 version: '3.8'
 
 services:
-  # Main ETL application
-  water-etl:
-    build: .
-    container_name: water-etl-app
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=us-east-1
-    volumes:
-      - ./src:/app/src
-      - ./data:/app/data
-    networks:
-      - water-network
-
-  # Spark ETL service
-  spark-etl:
-    build: .
-    container_name: spark-etl-app
-    command: ["python", "src/spark_etl.py"]
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=us-east-1
-      - SPARK_LOCAL_IP=127.0.0.1
-    volumes:
-      - ./src:/app/src
-      - ./data:/app/data
-    networks:
-      - water-network
-
-  # PostgreSQL for data modeling (Day 3)
+  # PostgreSQL - Already working
   postgres:
-    image: postgres:15
+    image: postgres:15-alpine
     container_name: water-postgres
     ports:
       - "5433:5432"
@@ -43,17 +13,129 @@ services:
       - POSTGRES_PASSWORD=pipeline123
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
     networks:
       - water-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dataeng -d water_analytics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
-  # Redis for caching (future use)
+  # Redis - NEEDS HEALTHCHECK
   redis:
     image: redis:7-alpine
     container_name: water-redis
     ports:
       - "6380:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 2gb --maxmemory-policy allkeys-lru
     networks:
       - water-network
+    restart: unless-stopped
+    healthcheck: # <--- ADD THIS BLOCK FOR REDIS HEALTH CHECK
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s # Give Redis a few seconds to start up before checking
+
+  # MinIO for S3-compatible storage
+  minio:
+    image: minio/minio:latest
+    container_name: water-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - water-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    restart: unless-stopped
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: water-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@waterproject.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_CONFIG_SERVER_MODE=False
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - water-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Grafana for visualization (optional)
+  grafana:
+    image: grafana/grafana:latest
+    container_name: water-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-worldmap-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - water-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Metabase for business analytics (optional)
+  metabase:
+    image: metabase/metabase:latest
+    container_name: water-metabase
+    ports:
+      - "3001:3000"
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=water_analytics
+      - MB_DB_PORT=5432
+      - MB_DB_USER=dataeng
+      - MB_DB_PASS=pipeline123
+      - MB_DB_HOST=postgres
+    volumes:
+      - metabase_data:/metabase-data
+    networks:
+      - water-network
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  # Jupyter notebook for data exploration
+  jupyter:
+    image: jupyter/scipy-notebook:latest
+    container_name: water-jupyter
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+      - ./src:/home/jovyan/src
+    networks:
+      - water-network
+    restart: unless-stopped
 
 networks:
   water-network:
@@ -61,3 +143,8 @@ networks:
 
 volumes:
   postgres_data:
+  redis_data:
+  minio_data:
+  grafana_data:
+  metabase_data:
+  pgadmin_data:

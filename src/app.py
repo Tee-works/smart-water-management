@@ -7,7 +7,7 @@ import logging
 app = Flask(__name__)
 
 # Database connection
-DB_ENGINE = create_engine('postgresql://dataeng:pipeline123@localhost:5433/water_analytics')
+DB_ENGINE = create_engine('postgresql://dataeng:pipeline123@localhost:5432/water_analytics')
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
