@@ -146,7 +146,7 @@ class UnifiedDataIngestionPlatform:
         
         try:
             lat, lon = 51.5074, -0.1278
-            api_key = "bf924330dbf3911b5107e8e39cd3df45"
+            api_key = "api_key"
          
             if not api_key:
                 self.logger.warning("No OpenWeather API key, using mock data")

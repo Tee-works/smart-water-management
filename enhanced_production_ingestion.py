@@ -16,7 +16,7 @@ def setup_environment():
     
     # Set OpenWeather API key if not already set
     if not os.getenv('OPENWEATHER_API_KEY'):
-        api_key = "bf924330dbf3911b5107e8e39cd3df45"
+        api_key = "api_key"
         os.environ['OPENWEATHER_API_KEY'] = api_key
         print(f"✅ OpenWeather API key configured")
     
