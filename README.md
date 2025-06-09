@@ -30,7 +30,7 @@
 This production-ready data platform demonstrates enterprise-level data engineering through a comprehensive smart city water management system. It processes IoT sensor data from water infrastructure, integrating multiple real-time data sources with sophisticated error handling and data quality frameworks.
 
 ### 📊 Live Performance Metrics
-- **174k real-time sensor readings** processed hourly from 3 external APIs
+- **174k real-time sensor readings** processed from 3 external APIs
 - **14,400+ synthetic records** for scalability testing
 - **94.9% data quality score** achieved in production
 - **0% anomaly rate** with validated real-time data
@@ -465,7 +465,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Your Name**
 - LinkedIn: [linkedin.com/in/yourprofile](https://www.linkedin.com/in/iyanujesu-akinyefa/)
 - Email: iyanujesuakinyefa@gmail.com
-- Portfolio: [yourportfolio.com](https://iyanujesu-taiwo.netlify.app/)
+- Portfolio: [yourportfolio.com](https://iyanujesu-taiwo-data.netlify.app/)
 
 **Project Link**: [https://github.com/tee-works/smart-water-management](https://github.com/tee-works/smart-water-management)
 
